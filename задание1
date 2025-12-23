@@ -1,0 +1,24 @@
+temperature = 24
+is_rainy = True
+is_raining_heavily = True
+
+print("Chto nadet:")
+
+if 20 <= temperature <= 30:  
+    if is_rainy:
+        if is_raining_heavily:
+            print("Futbolku, shtani, zont i dozhdevik")
+        else:
+            print("Futbolku, shtani i dozhdevik")
+    else:
+        print("Futbolku i shtani")
+elif temperature > 0:
+    if is_rainy:
+        if is_raining_heavily:
+            print("Palto, botinki i zont")
+        else:
+            print("Palto i dozhdevik")
+    else:
+        print("Palto")
+else:
+    print("Puhovik")
