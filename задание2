@@ -1,0 +1,116 @@
+import random
+
+
+class TicTacToe:
+    
+    
+    def __init__(self):
+        
+        self.board = [' ' for _ in range(9)]
+        self.current_player = 'X'
+    
+    def show_board(self):
+       
+        print("\n")
+        for i in range(3):
+            row = []
+            for j in range(3):
+                position = i * 3 + j
+                if self.board[position] == ' ':
+                    row.append(str(position + 1))  
+                else:
+                    row.append(self.board[position])
+            print(" | ".join(row))
+            if i < 2:
+                print("-" * 9)
+        print("\n")
+    
+    def available_moves(self):
+       
+        return [i for i, spot in enumerate(self.board) if spot == ' ']
+    
+    def make_move(self, position):
+        
+        if self.board[position] == ' ':
+            self.board[position] = self.current_player
+            return True
+        return False
+    
+    def switch_player(self):
+        
+        self.current_player = 'O' if self.current_player == 'X' else 'X'
+    
+    def check_winner(self):
+        
+        win_combinations = [
+            (0, 1, 2), (3, 4, 5), (6, 7, 8),  
+            (0, 3, 6), (1, 4, 7), (2, 5, 8),  
+            (0, 4, 8), (2, 4, 6)              
+        ]
+        
+        for combo in win_combinations:
+            a, b, c = combo
+            if (self.board[a] == self.board[b] == self.board[c] 
+                    and self.board[a] != ' '):
+                return self.board[a]
+        
+        return None
+    
+    def is_board_full(self):
+        
+        return ' ' not in self.board
+    
+    def play(self):
+        
+        print("Dobro pozhalovat v krestiki-noliki!")
+        print("Pozicii na pole:")
+        print("1 | 2 | 3")
+        print("---------")
+        print("4 | 5 | 6")
+        print("---------")
+        print("7 | 8 | 9")
+        print("\nIgrok X nachinaet igru!\n")
+        
+        while True:
+            self.show_board()
+            
+            
+            winner = self.check_winner()
+            if winner:
+                print(f"Igrok {winner} pobedil!")
+                break
+            if self.is_board_full():
+                print("Nichya!")
+                break
+            
+            
+            if self.current_player == 'X':
+                try:
+                    move = int(input(f"Igrok {self.current_player}, "
+                                   f"vyberite poziciyu (1-9): "))
+                    if move < 1 or move > 9:
+                        print("Poziciya dolzhna byt ot 1 do 9!")
+                        continue
+                    
+                    
+                    index = move - 1
+                    
+                    if not self.make_move(index):
+                        print("Eta kletka uzhe zanyata!")
+                        continue
+                except ValueError:
+                    print("Vvedite chislo ot 1 do 9!")
+                    continue
+            else:
+             
+                available = self.available_moves()
+                index = random.choice(available)
+                move = index + 1  
+                print(f"Igrok O vybiraet poziciyu {move}")
+                self.make_move(index)
+            
+            self.switch_player()
+
+if __name__ == "__main__":
+    game = TicTacToe()
+    game.play()
